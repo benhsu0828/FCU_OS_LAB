@@ -1,4 +1,4 @@
-obj-m += HW1-1_D1053020.o
+obj-m += D1053020_2.o
  
 KDIR = /usr/src/linux-headers-4.15.0-112-generic
  
