@@ -65,7 +65,6 @@ int simple_init(void)
    insertData(person4, "D1053023", "PAO-HUA-HSU3", "資訊三丁", "女", "92/08/31");
    insertData(person5, "D1053024", "PAO-HUA-HSU4", "資訊三丁", "男", "92/09/01");
 
-   INIT_LIST_HEAD(&person->list);
    list_add_tail(&person->list, &student_list);
    list_add_tail(&person2->list, &student_list);
    list_add_tail(&person3->list, &student_list);
