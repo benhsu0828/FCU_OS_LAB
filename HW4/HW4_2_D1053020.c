@@ -51,30 +51,35 @@ int main(int argc, const char *argv[]) {
     parameters *data = (parameters *)malloc(sizeof(parameters));
     data->from_index = 0;
     data->to_index = (SIZE / 5) - 1;
+    printf("建立第一個thread\n");
     pthread_create(&workers[0], 0, sorter, data);
 
     // 建立第二個排序執行緒
     data = (parameters *)malloc(sizeof(parameters));
     data->from_index = (SIZE / 5);
     data->to_index = (SIZE / 5)*2 - 1;
+    printf("建立第二個thread\n");
     pthread_create(&workers[1], 0, sorter, data);
 
     // 建立第三個排序執行緒
     data = (parameters *)malloc(sizeof(parameters));
     data->from_index = (SIZE / 5)*2;
     data->to_index = (SIZE / 5)*3 - 1;
+    printf("建立第三個thread\n");
     pthread_create(&workers[2], 0, sorter, data);
 
     // 建立第四個排序執行緒
     data = (parameters *)malloc(sizeof(parameters));
     data->from_index = (SIZE / 5)*3;
     data->to_index = (SIZE / 5)*4 - 1;
+    printf("建立第四個thread\n");
     pthread_create(&workers[3], 0, sorter, data);
 
     // 建立第五個排序執行緒
     data = (parameters *)malloc(sizeof(parameters));
     data->from_index = (SIZE / 5)*4;
     data->to_index = SIZE - 1;
+    printf("建立第五個thread\n");
     pthread_create(&workers[4], 0, sorter, data);
 
     // 等待兩個排序執行緒完成
@@ -112,9 +117,10 @@ void *sorter(void *params) {
         //嘗試鎖定互斥鎖
         if(pthread_mutex_trylock(&mutex) == 0)
         {
-            printf("成功鎖定互斥鎖，進行sort\n");
+            //成功鎖定互斥鎖
             //臨界區:修改共享資源
             sharedVariable++;
+            printf("成功對thread %d鎖定互斥鎖，進行sort\n", sharedVariable);
             // 包含 from_index, to_index
             parameters *p = (parameters *)params;
 
@@ -150,9 +156,9 @@ void *sorter(void *params) {
                 result[x] = list[x];
             }
 
-            printf("\n");
              //解鎖
             pthread_mutex_unlock(&mutex);
+            printf("成功對thread %d解鎖互斥鎖\n\n", sharedVariable);
             pthread_exit(NULL);
             //跳出for迴圈
             break;
@@ -174,6 +180,7 @@ void *merger(void *params) {
         //嘗試鎖定互斥鎖
         if(pthread_mutex_trylock(&mutex) == 0)
         {
+            //成功鎖定互斥鎖
             printf("成功鎖定互斥鎖，進行merge\n");
             //臨界區:修改共享資源
             sharedVariable++;
@@ -203,6 +210,7 @@ void *merger(void *params) {
             }
             //解鎖
             pthread_mutex_unlock(&mutex);
+            printf("成功解鎖互斥鎖\n\n");
             pthread_exit(NULL);
             //跳出for迴圈
             break;
