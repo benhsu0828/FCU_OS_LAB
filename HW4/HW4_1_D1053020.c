@@ -78,7 +78,7 @@ int main(int argc, const char *argv[]) {
     // 建立合併執行緒
     data = (parameters *)malloc(sizeof(parameters));
     data->from_index = 0;
-    data->to_index = (SIZE / 2);
+    data->to_index = SIZE - 1;
     pthread_create(&workers[5], 0, merger, data);
 
     // 等待合併執行緒完成
