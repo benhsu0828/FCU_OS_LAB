@@ -31,7 +31,7 @@ void displayCache(LRUCache *cache) {
 
 void accessPage(LRUCache *cache, int page) {
     int index = -1;
-
+    printf("Accessing page %d: ", page);
     // 檢查 page 是否已經在 cache 中
     for (int i = 0; i < MAX_FRAMES; ++i) {
         if (cache->frames[i] == page) {
@@ -49,6 +49,10 @@ void accessPage(LRUCache *cache, int page) {
         }
         cache->order[index] = 0;
     } else {
+        // 更新 access order，將每個 page 的 access order 都加 1
+        for (int i = 0; i < MAX_FRAMES; ++i) {
+                cache->order[i]++;
+        }
         // 如果 page 不在 cache 中，將 page 加入 cache
         if (cache->count < MAX_FRAMES) {
             // 如果 cache 還沒滿，直接將 page 加入 cache
